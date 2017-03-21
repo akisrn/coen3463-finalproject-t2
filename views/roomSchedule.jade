@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .container
+    br
+    if (user)
+      p.lead Welcome back, #{user.first_name}! &nbsp;
+        form(role='form', action="/logout",method="get", style='max-width: 300px;')
+            button.btn.btn-primary(href="/logout") Logout
+
+      br
+      br
+      p.lead Room #{RoomData.room_number} | #{DayData.day_of_the_week}
+
+      if (user.isAdmin)
+        form(role='form', action="/room/#{RoomData.id}/#{DayData.id}/addSchedule",method="post", style='max-width: 300px;')
+            .form-group
+              input.form-control(type='text', name="class_start", placeholder='Class Start' required='')
+            .form-group
+              input.form-control(type='text', name="class_end", placeholder='Class End' required='')
+            .form-group
+              input.form-control(type='text', name="class_code", placeholder='Class Code' required='')
+            .form-group
+              input.form-control(type='text', name="class_subject", placeholder='Class Subject' required='')
+            .form-group
+              input.form-control(type='text', name="class_professor", placeholder='Professor' required='')
+            button.btn.btn-primary(type='submit') Add Schedule
+      br
+      if(DayData.room_schedule)
+        table
+          tbody
+            for schedule in RoomScheduleData
+              tr
+                td 
+                  a(href='/room/#{RoomData.id}/#{DayData.id}/#{DayData.day_of_the_week}') #{schedule.class_start} to #{schedule.class_end}
+                td #{schedule.class_subject}
+                td #{schedule.class_professor}

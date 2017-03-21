@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  .container
+    br
+    if (user)
+      p.lead Welcome back, #{user.first_name}! &nbsp;
+        form(role='form', action="/logout",method="get", style='max-width: 300px;')
+            button.btn.btn-primary(href="/logout") Logout
+
+      if (user.isAdmin)
+        br
+        br
+        form(role='form', action="/room/add",method="post", style='max-width: 300px;')
+            .form-group
+              input.form-control(type='text', name="room_number", placeholder='Enter Room Number' required='')
+            button.btn.btn-primary(type='submit') Add Room
+      br
+      br
+      table
+        tbody
+          for RoomData in RoomsData
+            tr
+              td 
+                a(href='/room/#{RoomData.id}') #{RoomData.room_number}
