@@ -1,25 +1,62 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    title #{title}
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='css/matrix-login.css')
 
-block content
-  .container
-    br
-    if (user)
-      p.lead Welcome back, #{user.first_name}! &nbsp;
+    link(href='font-awesome/css/font-awesome.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800', rel='stylesheet', type='text/css')
+  body
+    center
+      if (user)
+        h3 WELCOME BACK, #{user.first_name}! &nbsp;
         form(role='form', action="/logout",method="get", style='max-width: 300px;')
-            button.btn.btn-primary(href="/logout") Logout
+          button.btn.btn-primary(href="/logout")
+            strong
+              | LOGOUT
+        br
+        if (user.isAdmin)
+          #loginbox
+            form#loginform.form-vertical(role='form', action="/room/add",method="post", style='max-width: 500px;')
+              .control-group
+                .controls
+                  label.control-label
+                    strong ROOM NUMBER
+                  .main_input_box
+                    span.add-on.bg_cpe
+                      i.icon-key
+                    input(type='text', name="room_number", placeholder='Enter Room Number' required='')
+              center
+                button.btn.btn-primary(type='submit')
+                  strong
+                    | ADD ROOM
+            .form-actions
 
-      if (user.isAdmin)
-        br
-        br
-        form(role='form', action="/room/add",method="post", style='max-width: 300px;')
-            .form-group
-              input.form-control(type='text', name="room_number", placeholder='Enter Room Number' required='')
-            button.btn.btn-primary(type='submit') Add Room
-      br
-      br
-      table
-        tbody
-          for RoomData in RoomsData
-            tr
-              td 
-                a(href='/room/#{RoomData.id}') #{RoomData.room_number}
+      
+      #loginbox
+        form#loginform.form-vertical(role='form', style='max-width: 500px;')
+            br  
+            h4 COMPUTER ENGINEERING DEPARTMENT ROOMS
+            br
+            if (RoomsData)
+              for RoomData in RoomsData
+                  .span8
+                    .widget-box
+                      .widget-title
+                        span.icon
+                          i.icon-columns
+                        h5 ROOM #{RoomData.room_number}
+                      .widget-content
+                        center
+                          .control-group
+                            label.control-label
+                              a(href='/room/#{RoomData.id}')
+                                | SEE FULL SCHEDULE
+
+
+    script(src='js/jquery.min.js')
+    script(src='js/matrix.login.js')

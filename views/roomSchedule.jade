@@ -25,13 +25,16 @@ block content
             .form-group
               input.form-control(type='text', name="class_professor", placeholder='Professor' required='')
             button.btn.btn-primary(type='submit') Add Schedule
+
       br
+      p.lead Schedules for this Room     
       if(DayData.room_schedule)
         table
           tbody
-            for schedule in RoomScheduleData
-              tr
-                td 
-                  a(href='/room/#{RoomData.id}/#{DayData.id}/#{DayData.day_of_the_week}') #{schedule.class_start} to #{schedule.class_end}
-                td #{schedule.class_subject}
-                td #{schedule.class_professor}
+            if (RoomScheduleData)
+              for schedule in RoomScheduleData
+                tr
+                  td 
+                    a(href='/room/#{RoomData.id}/#{DayData.id}/#{DayData.day_of_the_week}') #{schedule.class_start} to #{schedule.class_end}
+                  td #{schedule.class_subject}
+                  td #{schedule.class_professor}

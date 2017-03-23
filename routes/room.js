@@ -86,6 +86,14 @@ router.get('/:roomDataId/:dayDataId', function(req, res)
                                                               });
                                     console.log(RoomScheduleData.room_schedule);
                                  }
+                               else
+                                 {
+                                     res.render('roomSchedule', { DayData : DayData,
+                                                                  RoomData:RoomData,
+                                                                  title: "CpE Room Management System",
+                                                                  user: req.user
+                                                                });
+                                 }
                              }
                                   
                          });

@@ -1,18 +1,56 @@
-extends layout
-
-block content
-  .container
-        h1 Register Page
-        p.lead Say something worthwhile here.
-        br
-        form(role='form', action="/register",method="post", style='max-width: 300px;')
-          .form-group
-            input.form-control(type='text', name="username", placeholder='Enter Username' required='')
-          .form-group
-            input.form-control(type='text', name="firstname", placeholder='Enter First Name' required='')
-          .form-group
-            input.form-control(type='password', name="password", placeholder='Password' required='')
-          button.btn.btn-primary(type='submit') Register
-        br
-        p Already have an account? &nbsp;
-          a(href="/") Login
+doctype html
+html(lang='en')
+  head
+    title #{title}
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='css/matrix-login.css')
+    link(href='font-awesome/css/font-awesome.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800', rel='stylesheet', type='text/css')
+  body
+    center
+      h3
+        | COMPUTER ENGINEERING DEPARTMENT
+      h4
+        | ROOM MANAGEMENT SYSTEM
+      br
+    #loginbox
+      form#loginform.form-vertical(role='form', action="/register",method="post", style='max-width: 500px;')
+        .control-group
+          .controls
+            label.control-label 
+              strong USERNAME *
+            .main_input_box
+              span.add-on.bg_cpe
+                i.icon-user  
+              input(type='text', name="username", placeholder='Enter Username' required='')
+          br
+          .controls
+            label.control-label 
+              strong NAME *
+            .main_input_box
+              span.add-on.bg_cpe
+                i.icon-user-md
+              input(type='text', name="firstname", placeholder='Enter First Name' required='')
+          br
+          .controls
+            label.control-label 
+              strong PASSWORD *
+            .main_input_box
+              span.add-on.bg_cpe
+                i.icon-lock
+              input(type='password', name="password", placeholder='Password' required='')
+        center
+            button.btn.btn-primary(type='submit') 
+              strong
+               | REGISTER
+        .form-actions
+      .control-group.normal_text
+          h6
+            | ALREADY HAVE AN ACCOUNT? &nbsp;
+            a(href="/") LOGIN NOW!
+      
+    script(src='js/jquery.min.js')
+    script(src='js/matrix.login.js')

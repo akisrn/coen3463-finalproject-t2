@@ -8,16 +8,18 @@ block content
         form(role='form', action="/logout",method="get", style='max-width: 300px;')
             button.btn.btn-primary(href="/logout") Logout
 
-      if (user.isAdmin)
-        br
-        br
-        p.lead Room #{RoomData.room_number}
+      br
+      br
+      p.lead Room #{RoomData.room_number}
 
+      if (user.isAdmin)
         form(role='form', action="/room/#{RoomData.id}/add",method="post", style='max-width: 300px;')
             .form-group
               input.form-control(type='text', name="day_of_the_week", placeholder='Enter Day of the Week' required='')
             button.btn.btn-primary(type='submit') Add Day
-
+      
+      br
+      p.lead Click on the day below to see full schedule
       br
       table
         tbody
