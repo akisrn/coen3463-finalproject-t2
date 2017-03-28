@@ -20,7 +20,7 @@ html(lang='en')
         br
         if (user.isAdmin)
           #loginbox
-            form#loginform.form-vertical(role='form', action="/room/#{RoomData.id}/add",method="post", style='max-width: 500px;')
+            form#loginform.form-vertical(role='form', action="/room/#{RoomData.id}/#{DayData.id}/addSchedule",method="post", style='max-width: 300px;')
               .control-group
                 .controls
                   label.control-label
@@ -61,6 +61,7 @@ html(lang='en')
             br
             if (DayData.room_schedule)
               if (RoomScheduleData)
+                for schedule in RoomScheduleData
                   .span8
                     .widget-box
                       .widget-title
