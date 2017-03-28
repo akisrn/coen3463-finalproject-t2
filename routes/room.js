@@ -31,12 +31,22 @@ router.get('/:roomDataId', function(req, res)
                       { throw err; }
                     else
                      { 
-                       res.render('roomData', { DayData : DayData,
-                                                RoomData:RoomData,
-                                                title: "CpE Room Management System",
-                                                user: req.user
-                                              });
-                       console.log(DayData);
+                       if (DayData)
+                         {
+                            res.render('roomData', { DayData : DayData,
+                                                     RoomData:RoomData,
+                                                     title: "CpE Room Management System",
+                                                     user: req.user
+                                                   });
+                            console.log(DayData);
+                         }
+                       else
+                        {
+                            res.render('roomData', { RoomData:RoomData,
+                                                     title: "CpE Room Management System",
+                                                     user: req.user
+                                                   });
+                        }
                      }
                           
                  });

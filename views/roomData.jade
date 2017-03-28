@@ -1,29 +1,63 @@
-extends layout
-
-block content
-  .container
-    br
-    if (user)
-      p.lead Welcome back, #{user.first_name}! &nbsp;
+doctype html
+html(lang='en')
+  head
+    title #{title}
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='../assets/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../assets/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='../assets/css/matrix-login.css')
+    link(href='../assets/font-awesome/css/font-awesome.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800', rel='stylesheet', type='text/css')
+  body
+    center
+      if (user)
+        h3 WELCOME BACK, #{user.first_name}! &nbsp;
         form(role='form', action="/logout",method="get", style='max-width: 300px;')
-            button.btn.btn-primary(href="/logout") Logout
+          button.btn.btn-primary(href="/logout")
+            strong
+              | LOGOUT
+        br
+        if (user.isAdmin)
+          #loginbox
+            form#loginform.form-vertical(role='form', action="/room/#{RoomData.id}/add",method="post", style='max-width: 500px;')
+              .control-group
+                .controls
+                  label.control-label
+                    strong
+                      h4 ROOM #{RoomData.room_number}
 
-      br
-      br
-      p.lead Room #{RoomData.room_number}
+                  .main_input_box
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="day_of_the_week", placeholder='Enter Day of the Week' required='')
+              center
+                button.btn.btn-primary(type='submit')
+                  strong
+                    | ADD DAY
+            .form-actions
 
-      if (user.isAdmin)
-        form(role='form', action="/room/#{RoomData.id}/add",method="post", style='max-width: 300px;')
-            .form-group
-              input.form-control(type='text', name="day_of_the_week", placeholder='Enter Day of the Week' required='')
-            button.btn.btn-primary(type='submit') Add Day
       
-      br
-      p.lead Click on the day below to see full schedule
-      br
-      table
-        tbody
-          for day in DayData
-            tr
-              td 
-                a(href='/room/#{RoomData.id}/#{day.id}') #{day.day_of_the_week}
+      #loginbox
+        form#loginform.form-vertical(role='form', style='max-width: 500px;')
+            br  
+            h4 COMPUTER ENGINEERING DEPARTMENT ROOMS
+            br
+            if (DayData)
+              for day in DayData
+                  .span8
+                    .widget-box
+                      .widget-title
+                        span.icon
+                          i.icon-calendar
+                        h5 CLICK ON THE DAY TO SEE FULL SCHEDULE
+                      .widget-content
+                        center
+                          .control-group
+                            label.control-label
+                              a(href='/room/#{RoomData.id}/#{day.id}')
+                                | #{day.day_of_the_week}
+
+
+    script(src='../assets/js/jquery.min.js')
+    script(src='../assets/js/matrix.login.js')

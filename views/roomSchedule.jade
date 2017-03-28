@@ -1,40 +1,79 @@
-extends layout
-
-block content
-  .container
-    br
-    if (user)
-      p.lead Welcome back, #{user.first_name}! &nbsp;
+doctype html
+html(lang='en')
+  head
+    title #{title}
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='../assets/css/bootstrap.min.css')
+    link(rel='stylesheet', href='../assets/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='../assets/css/matrix-login.css')
+    link(href='../assets/font-awesome/css/font-awesome.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800', rel='stylesheet', type='text/css')
+  body
+    center
+      if (user)
+        h3 WELCOME BACK, #{user.first_name}! &nbsp;
         form(role='form', action="/logout",method="get", style='max-width: 300px;')
-            button.btn.btn-primary(href="/logout") Logout
+          button.btn.btn-primary(href="/logout")
+            strong
+              | LOGOUT
+        br
+        if (user.isAdmin)
+          #loginbox
+            form#loginform.form-vertical(role='form', action="/room/#{RoomData.id}/add",method="post", style='max-width: 500px;')
+              .control-group
+                .controls
+                  label.control-label
+                    strong
+                      h4 ROOM #{RoomData.room_number} | #{DayData.day_of_the_week}
 
-      br
-      br
-      p.lead Room #{RoomData.room_number} | #{DayData.day_of_the_week}
+                  .main_input_box
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="class_start", placeholder='Class Start' required='')
 
-      if (user.isAdmin)
-        form(role='form', action="/room/#{RoomData.id}/#{DayData.id}/addSchedule",method="post", style='max-width: 300px;')
-            .form-group
-              input.form-control(type='text', name="class_start", placeholder='Class Start' required='')
-            .form-group
-              input.form-control(type='text', name="class_end", placeholder='Class End' required='')
-            .form-group
-              input.form-control(type='text', name="class_code", placeholder='Class Code' required='')
-            .form-group
-              input.form-control(type='text', name="class_subject", placeholder='Class Subject' required='')
-            .form-group
-              input.form-control(type='text', name="class_professor", placeholder='Professor' required='')
-            button.btn.btn-primary(type='submit') Add Schedule
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="class_end", placeholder='Class End' required='')
 
-      br
-      p.lead Schedules for this Room     
-      if(DayData.room_schedule)
-        table
-          tbody
-            if (RoomScheduleData)
-              for schedule in RoomScheduleData
-                tr
-                  td 
-                    a(href='/room/#{RoomData.id}/#{DayData.id}/#{DayData.day_of_the_week}') #{schedule.class_start} to #{schedule.class_end}
-                  td #{schedule.class_subject}
-                  td #{schedule.class_professor}
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="class_code", placeholder='Class Code' required='')
+
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="class_subject", placeholder='Class Subject' required='')
+
+                    span.add-on.bg_cpe
+                      i.icon-calendar
+                    input(type='text', name="class_professor", placeholder='Professor' required='')
+              center
+                button.btn.btn-primary(type='submit')
+                  strong
+                    | ADD SCHEDULE
+            .form-actions
+
+      
+      #loginbox
+        form#loginform.form-vertical(role='form', style='max-width: 500px;')
+            br  
+            h4 SCHEDULES FOR THIS ROOM
+            br
+            if (DayData.room_schedule)
+              if (RoomScheduleData)
+                  .span8
+                    .widget-box
+                      .widget-title
+                        span.icon
+                          i.icon-calendar
+                        h5 #{schedule.class_start} to #{schedule.class_end}
+                      .widget-content
+                        center
+                          .control-group
+                            for schedule in RoomScheduleData
+                              label.control-label
+                                | #{schedule.class_subject} | #{schedule.class_professor}
+
+
+    script(src='../assets/js/jquery.min.js')
+    script(src='../assets/js/matrix.login.js')

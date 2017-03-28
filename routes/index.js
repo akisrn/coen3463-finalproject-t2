@@ -54,22 +54,26 @@ router.post('/register', function(req, res)
                 if (err)
                  {
                     console.log(err.toString());
-                    res.render('register', { account : account,
-                        					 errorRegistration: err.toString(),
+                    res.render('register', { errorRegistration: 'Registration error! Try again!',
                         					 title: "Register || To-Do List"
                         				    });
                  }
-
-                passport.authenticate('local')(req, res, function ()
+                 else 
                  {
-                    res.redirect('/');
-                 });
+                    passport.authenticate('local')(req, res, function ()
+                     {
+                        console.log('Registration successful!');
+                        res.redirect('/');
+                     });
+                 }
              });
          }
         else
          {
           console.log('Username already exists!')
-          res.redirect('/register');
+          res.render('register', { errorRegistration: 'USERNAME already exists!',
+                                   title: "Register || To-Do List"
+                                 });
          }
      });
  });
@@ -89,8 +93,9 @@ router.post('/login', function(req, res, next)
          {
             if(!user)
              {
-                console.log('Invalid username or password!');
-                res.redirect('/');
+                res.render('login', { errorLogin: "Invalid USERNAME or PASSWORD!",
+                                      title: "Login || To-Do List"
+                                    });
              }
             else
              {
@@ -103,8 +108,9 @@ router.post('/login', function(req, res, next)
                      }
                     else
                      {
-                        console.log(err.toString());
-                        res.end(err);
+                        res.render('login', { errorLogin: "Login Error! Try again!",
+                                              title: "Login || To-Do List"
+                                            });
                      }
                  })
              }
@@ -112,8 +118,9 @@ router.post('/login', function(req, res, next)
          
         else
          {
-            console.log(err.toString());
-            res.end(err);
+           res.render('login', { errorLogin: "Authentication Failed!",
+                                 title: "Login || To-Do List"
+                               });
          }
      })(req, res, next);
  });
